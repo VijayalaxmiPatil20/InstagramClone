@@ -20,7 +20,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import java.util.List;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
-    private Button btnSave, btnGetAllData;
+    private Button btnSave, btnGetAllData, btnTransition;
     private EditText edtName, edtPunchSpeed, edtPunchPower, edtKickPower, edtKickSpeed;
     private TextView txtGetData;
 
@@ -39,6 +39,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         edtKickSpeed = findViewById(R.id.edtKickSpeed);
         txtGetData = findViewById(R.id.txtGetData);
         btnGetAllData = findViewById(R.id.btnGetAllData);
+        btnTransition = findViewById(R.id.btnNextActivity);
 
         txtGetData.setOnClickListener(new View.OnClickListener() {
 
@@ -66,6 +67,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 allKickBoxers = "";
 
                 ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
+
+//                queryAll.whereGreaterThan("punch_power","50"); //whereGreaterThan API to get only the punch power having greater then 100;
+                queryAll.whereGreaterThanOrEqualTo("punch_power","50");
+                queryAll.setLimit(1);
                 //we want all the data of the class name KickBoxer
                 queryAll.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -83,6 +88,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                         }
                     }
                 });
+
+            }
+        });
+
+        btnTransition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
