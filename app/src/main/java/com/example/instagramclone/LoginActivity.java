@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -27,6 +28,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         edtLoginEmail = findViewById(R.id.edtLoginEmail);
         edtLoginPassword = findViewById(R.id.edtLoginPassword);
+
+        edtLoginPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+                    onClick(edtLoginPassword);
+                }
+                return false;
+            }
+        });
 
         btnLoginActiviy = findViewById(R.id.btnLoginActivity);
         btnSignUpLoginActivity = findViewById(R.id.btnSignupLoginActivity);
