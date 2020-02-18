@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
-                    onClick(edtLoginPassword);
+                    onClick(btnLoginActiviy;
                 }
                 return false;
             }
