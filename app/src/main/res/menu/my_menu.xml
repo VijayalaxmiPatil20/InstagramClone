@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         app:showAsAction="always"
         android:title="Post Image"
-        android:icon="@drawable/india_flag"/>
+        android:icon="@drawable/camera_item"/>
 
     <item android:id="@+id/logoutUserItem"
         android:orderInCategory="100"

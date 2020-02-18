@@ -1,7 +1,5 @@
 package com.example.instagramclone;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnSignupLoginActivity:
                 Intent intent = new Intent(LoginActivity.this, SignUp.class);
                 startActivity(intent);
+                finish();
                 break;
         }
 
@@ -108,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Intent intent = new Intent(LoginActivity.this,SocialMediaActivity.class);
         startActivity(intent);
+        finish();
 
     }
 }

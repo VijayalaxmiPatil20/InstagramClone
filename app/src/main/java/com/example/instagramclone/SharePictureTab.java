@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +35,8 @@ import com.parse.SaveCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -184,10 +188,38 @@ public class SharePictureTab extends Fragment implements View.OnClickListener{
                     cursor.close();
                     BitmapFactory.Options options = new BitmapFactory.Options ();
                     options.inSampleSize = 4;
-//                   receivedImageBitmap = BitmapFactory.decodeFile(picturePath, options);
+
+                    while (receivedImageBitmap == null) // makes screen blank coz of higher resolution image.
+                        //returns null and throws file not found exception and as image size is big or  image that is not supported
+//                   receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
                     receivedImageBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImage);
-                    Log.d(TAG,"receivedImageBitmap : "+receivedImageBitmap);
-                   imgShare.setImageBitmap(receivedImageBitmap);
+
+                    //rotating the image to its actual position without the below code the imageView is rotated.
+                    Matrix matrix = new Matrix();
+                    Bitmap scaledBitmap;
+                    if (receivedImageBitmap.getWidth() >= receivedImageBitmap.getHeight()){
+                        matrix.setRectToRect(new RectF(0, 0, receivedImageBitmap.getWidth(), receivedImageBitmap.getHeight()), new RectF(0, 0, 400, 300), Matrix.ScaleToFit.CENTER);
+                        scaledBitmap = Bitmap.createBitmap(receivedImageBitmap, 0, 0, receivedImageBitmap.getWidth(), receivedImageBitmap.getHeight(), matrix, true);
+                    } else{
+                        matrix.setRectToRect(new RectF(0, 0, receivedImageBitmap.getWidth(), receivedImageBitmap.getHeight()), new RectF(0, 0, 300, 400), Matrix.ScaleToFit.CENTER);
+                        scaledBitmap = Bitmap.createBitmap(receivedImageBitmap, 0, 0, receivedImageBitmap.getWidth(), receivedImageBitmap.getHeight(), matrix, true);
+                    }
+
+                    File file = new File(getContext().getExternalCacheDir(), "image.jpg");
+                    try {
+                        FileOutputStream out = new FileOutputStream(file);
+                        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.flush();
+                        out.close();
+                    } catch (Exception e) {
+                        Log.e("Image", "Convert");
+                    }
+
+
+
+                    Log.d(TAG,"receivedImageBitmap : "+scaledBitmap);
+                   imgShare.setImageBitmap(scaledBitmap);
+//                    imgShare.setImageBitmap(receivedImageBitmap);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
