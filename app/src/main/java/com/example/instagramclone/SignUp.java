@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -19,7 +20,9 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText edtEmail, edtUserName, edtPassword;
+    private EditText edtEmail, edtUserName;
+//    , edtPassword;
+    private TextInputLayout edtPassword;
     private Button btnLogin, btnSignUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
                 if (edtEmail.getText().toString().equals("")
                         || edtUserName.getText().toString().equals("")
-                        || edtPassword.getText().toString().equals("")) {
+                        || edtPassword.getEditText().toString().equals("")) {
                     FancyToast.makeText(SignUp.this, "Email, Username, Password is required"
                             , FancyToast.LENGTH_SHORT, FancyToast.INFO, true).show();
 
@@ -78,7 +81,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     final ParseUser appUser = new ParseUser();
                     appUser.setEmail(edtEmail.getText().toString());
                     appUser.setUsername(edtUserName.getText().toString());
-                    appUser.setPassword(edtPassword.getText().toString());
+                    appUser.setPassword(edtPassword.getEditText().toString());
 
                     final ProgressDialog progressDialog = new ProgressDialog(this);
                     progressDialog.setMessage("Signing Up " + edtUserName.getText().toString());
@@ -114,6 +117,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             InputMethodManager inputMethodManager = (InputMethodManager)
                     getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+//            inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         } catch (Exception e) {
             e.printStackTrace();
         }
